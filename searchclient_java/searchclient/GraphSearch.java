@@ -42,14 +42,34 @@ public class GraphSearch {
             frontier.add(initialState);
             HashSet<State> explored = new HashSet<>();
 
-            while (true) {
+            while (!frontier.isEmpty()) {
 
                 //Print a status message every 10000 iteration
                 if (++iterations % 10000 == 0) {
                     printSearchStatus(explored, frontier);
                 }
 
-                //Your code here...
+                // Your code here...
+                // frontier is frontie, initial state is initialstate
+                // visited is explored
+                for(int i = 0; i<frontier.size(); i++){
+                    State curr = frontier.pop();
+                    explored.add(curr);
+                    for (int j =0; j<curr.getExpandedStates().size(); j++){
+                        State child = curr.getExpandedStates().get(j);
+                        if(!explored.containsKey(child) || child.extractPlan().size < explored.get(child)){
+                            //explored.add(child);
+                            frontier.add(child);
+                            if(child.isGoalState()){
+                                return child.extractPlan();
+                            }
+                        }
+
+
+
+                    }
+                }
+
                 
             }
         }
