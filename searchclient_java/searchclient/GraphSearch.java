@@ -18,7 +18,7 @@ public class GraphSearch {
             return new Action[][] {
                 {Action.MoveS},
                 {Action.MoveE},
-                {Action.MoveE},
+                {Action.MoveW},
                 {Action.MoveS},
             };
         } else {
@@ -43,7 +43,7 @@ public class GraphSearch {
             HashSet<State> explored = new HashSet<>();
 
             while (true) {
-
+//                System.out.println("Iterations Count: " + iterations);
                 //Print a status message every 10000 iteration
                 if (++iterations % 10000 == 0) {
                     printSearchStatus(explored, frontier);
