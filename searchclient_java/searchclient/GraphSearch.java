@@ -8,7 +8,7 @@ public class GraphSearch {
 
     public static Action[][] search(State initialState, Frontier frontier)
     {
-        boolean outputFixedSolution = true;
+        boolean outputFixedSolution = false;
 
         if (outputFixedSolution) {
             //Part 1:
@@ -42,35 +42,27 @@ public class GraphSearch {
             frontier.add(initialState);
             HashSet<State> explored = new HashSet<>();
 
-            while (!frontier.isEmpty()) {
+            while (true) {
 
                 //Print a status message every 10000 iteration
                 if (++iterations % 10000 == 0) {
                     printSearchStatus(explored, frontier);
                 }
-
                 // Your code here...
-                // frontier is frontie, initial state is initialstate
-                // visited is explored
-                for(int i = 0; i<frontier.size(); i++){
-                    State curr = frontier.pop();
-                    explored.add(curr);
-                    for (int j =0; j<curr.getExpandedStates().size(); j++){
-                        State child = curr.getExpandedStates().get(j);
-                        if(!explored.containsKey(child) || child.extractPlan().size < explored.get(child)){
-                            //explored.add(child);
-                            frontier.add(child);
-                            if(child.isGoalState()){
-                                return child.extractPlan();
-                            }
-                        }
-
-
-
-                    }
+                if(frontier.isEmpty()){
+                    return null;
                 }
-
-                
+                State curr = frontier.pop();
+                if(curr.isGoalState()){
+                    return curr.extractPlan();
+                }
+                explored.add(curr);
+                for(int i =0; i<curr.getExpandedStates().size();i++){
+                    State child = curr.getExpandedStates().get(i);
+                    if(!frontier.contains(child) && !explored.contains(child)){
+                        frontier.add(child);
+                    }
+                } 
             }
         }
     }
