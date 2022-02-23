@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-public class State
-{
+public class State {
     private static final Random RNG = new Random(1);
 
     /*
@@ -54,8 +53,7 @@ public class State
     // Constructs an initial state.
     // Arguments are not copied, and therefore should not be modified after being passed in.
     public State(int[] agentRows, int[] agentCols, Color[] agentColors, boolean[][] walls,
-                 char[][] boxes, Color[] boxColors, char[][] goals
-    )
+                 char[][] boxes, Color[] boxColors, char[][] goals)
     {
         this.agentRows = agentRows;
         this.agentCols = agentCols;
@@ -101,6 +99,16 @@ public class State
                     break;
 
                 case Move:
+                    this.agentRows[agent] += action.agentRowDelta;
+                    this.agentCols[agent] += action.agentColDelta;
+                    break;
+
+                case Push:
+                    this.agentRows[agent] += action.agentRowDelta;
+                    this.agentCols[agent] += action.agentColDelta;
+                    break;
+
+                case Pull:
                     this.agentRows[agent] += action.agentRowDelta;
                     this.agentCols[agent] += action.agentColDelta;
                     break;
@@ -220,6 +228,17 @@ public class State
                 destinationCol = agentCol + action.agentColDelta;
                 return this.cellIsFree(destinationRow, destinationCol);
 
+            case Push:
+                destinationRow = agentRow + action.agentRowDelta;
+                destinationCol = agentCol + action.agentColDelta;
+                return this.cellIsFree(destinationRow, destinationCol);
+
+            case Pull:
+                destinationRow = agentRow + action.agentRowDelta;
+                destinationCol = agentCol + action.agentColDelta;
+                return this.cellIsFree(destinationRow, destinationCol);
+                
+
         }
 
         // Unreachable:
@@ -229,6 +248,7 @@ public class State
     private boolean isConflicting(Action[] jointAction)
     {
         int numAgents = this.agentRows.length;
+        //int numBoxes = this.boxes.length;
 
         int[] destinationRows = new int[numAgents]; // row of new cell to become occupied by action
         int[] destinationCols = new int[numAgents]; // column of new cell to become occupied by action
@@ -239,7 +259,7 @@ public class State
         for (int agent = 0; agent < numAgents; ++agent)
         {
             Action action = jointAction[agent];
-            int agentRow = this.agentRows[agent];
+            int agentRow = this.agentRows[agent]; 
             int agentCol = this.agentCols[agent];
             int boxRow;
             int boxCol;
@@ -250,10 +270,25 @@ public class State
                     break;
 
                 case Move:
-                    destinationRows[agent] = agentRow + action.agentRowDelta;
-                    destinationCols[agent] = agentCol + action.agentColDelta;
+                    destinationRows[agent] = agentRow + action.agentRowDelta; // changing row of agent
+                    destinationCols[agent] = agentCol + action.agentColDelta; // changing col of agent
                     boxRows[agent] = agentRow; // Distinct dummy value
                     boxCols[agent] = agentCol; // Distinct dummy value
+                    break;
+
+                case Push:
+                    destinationRows[agent] = agentRow + action.agentRowDelta;
+                    destinationCols[agent] = agentCol + action.agentColDelta;
+                    boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
+                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
+
+                    break;
+
+                case Pull:
+                    destinationRows[agent] = agentRow + action.agentRowDelta;
+                    destinationCols[agent] = agentCol + action.agentColDelta;
+                    boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
+                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
                     break;
            }
         }
