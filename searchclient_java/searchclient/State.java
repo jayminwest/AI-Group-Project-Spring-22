@@ -106,11 +106,13 @@ public class State {
                 case Push:
                     this.agentRows[agent] += action.agentRowDelta;
                     this.agentCols[agent] += action.agentColDelta;
+                    //this.boxes[agent] += action.boxDelta;
                     break;
 
                 case Pull:
                     this.agentRows[agent] += action.agentRowDelta;
                     this.agentCols[agent] += action.agentColDelta;
+                    //this.boxes[agent] += action.boxDelta; 
                     break;
             }
         }
@@ -281,7 +283,6 @@ public class State {
                     destinationCols[agent] = agentCol + action.agentColDelta;
                     boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
                     boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
-
                     break;
 
                 case Pull:
