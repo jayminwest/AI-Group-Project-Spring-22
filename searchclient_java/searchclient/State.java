@@ -113,12 +113,12 @@ public class State
                     oldBoxRow = this.agentRows[agent] + action.agentRowDelta;
                     oldBoxCol = this.agentCols[agent] + action.agentColDelta;
                     box = this.boxes[oldBoxRow][oldBoxCol];
-                    // new box position 
-                    newBoxRow = oldBoxRow + action.boxRowDelta;
-                    newBoxCol = oldBoxCol + action.boxColDelta;
                     // new agent position
                     this.agentRows[agent] += action.agentRowDelta;
                     this.agentCols[agent] += action.agentColDelta;
+                    // new box position 
+                    newBoxRow = oldBoxRow + action.boxRowDelta;
+                    newBoxCol = oldBoxCol + action.boxColDelta;
                     // updating the boxes grid
                     this.boxes[oldBoxRow][oldBoxCol] = 0;
                     this.boxes[newBoxRow][newBoxCol] = box;
@@ -126,7 +126,7 @@ public class State
                 case Pull:
                     // new box position
                     newBoxRow = this.agentRows[agent];
-                    newBoxCol = this.agentCols[agent];
+                    newBoxCol = this.agentRows[agent];
                     // old box position
                     oldBoxRow = newBoxRow - action.boxRowDelta;
                     oldBoxCol = newBoxCol - action.boxColDelta;
@@ -311,6 +311,20 @@ public class State
                     destinationCols[agent] = agentCol + action.agentColDelta;
                     boxRows[agent] = agentRow; // Distinct dummy value
                     boxCols[agent] = agentCol; // Distinct dummy value
+                    break;
+
+                case Push:
+                    destinationRows[agent] = agentRow + action.agentRowDelta;
+                    destinationCols[agent] = agentCol + action.agentColDelta;
+                    boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
+                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
+                    break;
+
+                case Pull:
+                    destinationRows[agent] = agentRow + action.agentRowDelta;
+                    destinationCols[agent] = agentCol + action.agentColDelta;
+                    boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
+                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
                     break;
            }
         }
