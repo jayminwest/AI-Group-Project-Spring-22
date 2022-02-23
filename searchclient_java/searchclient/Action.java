@@ -3,7 +3,9 @@ package searchclient;
 enum ActionType
 {
     NoOp,
-    Move
+    Move,
+    Push,
+    Pull
 }
 
 public enum Action
@@ -27,7 +29,41 @@ public enum Action
     MoveN("Move(N)", ActionType.Move, -1, 0, 0, 0),
     MoveS("Move(S)", ActionType.Move, 1, 0, 0, 0),
     MoveE("Move(E)", ActionType.Move, 0, 1, 0, 0),
-    MoveW("Move(W)", ActionType.Move, 0, -1, 0, 0);
+    MoveW("Move(W)", ActionType.Move, 0, -1, 0, 0),
+
+    // Agent pushing North
+    PushNN("Push(X,Y)", ActionType.Push, -1, 0, -1, 0),
+    PushNE("Push(X,Y)", ActionType.Push, -1, 0, 0, 1),
+    PushNW("Push(X,Y)", ActionType.Push, -1, 0, 0, -1),
+    // Agent pushing South
+    PushSS("Push(X,Y)", ActionType.Push, 1, 0, 1, 0),
+    PushSE("Push(X,Y)", ActionType.Push, 1, 0, 0, 1),
+    PushSW("Push(X,Y)", ActionType.Push, 1, 0, 0, -1),
+    // Agent pushing East
+    PushEE("Push(X,Y)", ActionType.Push, 0, 1, 0, 1),
+    PushEN("Push(X,Y)", ActionType.Push, 0, 1, -1, 0),
+    PushES("Push(X,Y)", ActionType.Push, 0, 1, 1, 0),
+    // Agent pushing West
+    PushWW("Push(X,Y)", ActionType.Push, 0, -1, 0, -1),
+    PushWN("Push(X,Y)", ActionType.Push, 0, -1, -1, 0),
+    PushWS("Push(X,Y)", ActionType.Push, 0, -1, 1, 0),
+
+    // Agent pulling North
+    PullNN("Pull(X,Y)", ActionType.Pull, -1, 0, -1, 0),
+    PullNE("Pull(X,Y)", ActionType.Pull, -1, 0, 0, 1),
+    PullNW("Pull(X,Y)", ActionType.Pull, -1, 0, 0, -1),
+    // Agent pulling South
+    PullSS("Pull(X,Y)", ActionType.Pull, 1, 0, 1, 0),
+    PullSE("Pull(X,Y)", ActionType.Pull, 1, 0, 0, 1),
+    PullSW("Pull(X,Y)", ActionType.Pull, 1, 0, 0, -1),
+    // Agent pulling East
+    PullEE("Pull(X,Y)", ActionType.Pull, 0, 1, 0, 1),
+    PullEN("Pull(X,Y)", ActionType.Pull, 0, 1, -1, 0),
+    PullES("Pull(X,Y)", ActionType.Pull, 0, 1, 1, 0),
+    // Agent pulling West
+    PullWW("Pull(X,Y)", ActionType.Pull, 0, -1, 0, -1),
+    PullWN("Pull(X,Y)", ActionType.Pull, 0, -1, -1, 0),
+    PullWS("Pull(X,Y)", ActionType.Pull, 0, -1, 1, 0);
 
     public final String name;
     public final ActionType type;

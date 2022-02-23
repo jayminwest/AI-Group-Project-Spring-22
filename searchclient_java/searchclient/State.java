@@ -94,7 +94,10 @@ public class State
         {
             Action action = jointAction[agent];
             char box;
-
+            int oldBoxRow;
+            int oldBoxCol;
+            int newBoxRow;
+            int newBoxCol;
             switch (action.type)
             {
                 case NoOp:
@@ -104,6 +107,37 @@ public class State
                     this.agentRows[agent] += action.agentRowDelta;
                     this.agentCols[agent] += action.agentColDelta;
                     break;
+                
+                case Push:
+                    // old box position
+                    oldBoxRow = this.agentRows[agent] + action.agentRowDelta;
+                    oldBoxCol = this.agentCols[agent] + action.agentColDelta;
+                    box = this.boxes[oldBoxRow][oldBoxCol];
+                    // new agent position
+                    this.agentRows[agent] += action.agentRowDelta;
+                    this.agentCols[agent] += action.agentColDelta;
+                    // new box position 
+                    newBoxRow = oldBoxRow + action.boxRowDelta;
+                    newBoxCol = oldBoxCol + action.boxColDelta;
+                    // updating the boxes grid
+                    this.boxes[oldBoxRow][oldBoxCol] = 0;
+                    this.boxes[newBoxRow][newBoxCol] = box;
+
+                case Pull:
+                    // new box position
+                    newBoxRow = this.agentRows[agent];
+                    newBoxCol = this.agentRows[agent];
+                    // old box position
+                    oldBoxRow = newBoxRow - action.boxRowDelta;
+                    oldBoxCol = newBoxCol - action.boxColDelta;
+                    box = this.boxes[oldBoxRow][oldBoxCol];
+                    // new agent position
+                    this.agentRows[agent] += action.agentRowDelta;
+                    this.agentCols[agent] += action.agentColDelta;
+                    //updating the boxes grid
+                    this.boxes[oldBoxRow][oldBoxCol] = 0;
+                    this.boxes[newBoxRow][newBoxCol] = box;
+
             }
         }
     }
@@ -219,7 +253,30 @@ public class State
                 destinationRow = agentRow + action.agentRowDelta;
                 destinationCol = agentCol + action.agentColDelta;
                 return this.cellIsFree(destinationRow, destinationCol);
+            
+            case Push:
+                destinationRow = agentRow + action.agentRowDelta;
+                destinationCol = agentCol + action.agentColDelta;
+                boxRow = destinationRow + action.boxRowDelta;
+                boxCol = destinationCol + action.agentColDelta;
+                box = this.boxes[destinationRow][destinationCol];
+                if(box == 0 || box == '0'){
+                    return false;
+                }
 
+                return this.cellIsFree(boxRow, boxCol) && this.boxColors[(int) box - 65] == agentColor;
+
+            case Pull:
+                destinationRow = agentRow + action.agentRowDelta;
+                destinationCol = agentCol + action.agentColDelta;
+                boxRow = destinationRow - action.boxRowDelta;
+                boxCol = destinationCol - action.agentColDelta;
+                box = this.boxes[destinationRow][destinationCol];
+                if(box == 0 || box == '0'){
+                    return false;
+                }
+
+                return this.cellIsFree(destinationRow, destinationCol) && this.boxColors[(int) box - 65] == agentColor;
         }
 
         // Unreachable:
