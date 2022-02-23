@@ -48,7 +48,7 @@ public class GraphSearch {
 
             while (true) {
                 //Print a status message every 10000 iteration
-                if (++iterations % 10000 == 0) {
+                if (++iterations % 1 == 0) {
                     printSearchStatus(explored, frontier);
                 }
                 // Your code here...
