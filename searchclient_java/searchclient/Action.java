@@ -33,38 +33,38 @@ public enum Action
     MoveW("Move(W)", ActionType.Move, 0, -1, 0, 0),
 
     // Agent pushing North
-    PushNN("Push(X,Y)", ActionType.Push, -1, 0, -1, 0),
-    PushNE("Push(X,Y)", ActionType.Push, -1, 0, 0, 1),
-    PushNW("Push(X,Y)", ActionType.Push, -1, 0, 0, -1),
+    PushNN("Push(N,N)", ActionType.Push, -1, 0, -1, 0),
+    PushNE("Push(N,E)", ActionType.Push, -1, 0, 0, 1),
+    PushNW("Push(N,W)", ActionType.Push, -1, 0, 0, -1),
     // Agent pushing South
-    PushSS("Push(X,Y)", ActionType.Push, 1, 0, 1, 0),
-    PushSE("Push(X,Y)", ActionType.Push, 1, 0, 0, 1),
-    PushSW("Push(X,Y)", ActionType.Push, 1, 0, 0, -1),
+    PushSS("Push(S,S)", ActionType.Push, 1, 0, 1, 0),
+    PushSE("Push(S,E)", ActionType.Push, 1, 0, 0, 1),
+    PushSW("Push(S,W)", ActionType.Push, 1, 0, 0, -1),
     // Agent pushing East
-    PushEE("Push(X,Y)", ActionType.Push, 0, 1, 0, 1),
-    PushEN("Push(X,Y)", ActionType.Push, 0, 1, -1, 0),
-    PushES("Push(X,Y)", ActionType.Push, 0, 1, 1, 0),
+    PushEE("Push(E,E)", ActionType.Push, 0, 1, 0, 1),
+    PushEN("Push(E,N)", ActionType.Push, 0, 1, -1, 0),
+    PushES("Push(E,S)", ActionType.Push, 0, 1, 1, 0),
     // Agent pushing West
-    PushWW("Push(X,Y)", ActionType.Push, 0, -1, 0, -1),
-    PushWN("Push(X,Y)", ActionType.Push, 0, -1, -1, 0),
-    PushWS("Push(X,Y)", ActionType.Push, 0, -1, 1, 0),
+    PushWW("Push(W,W)", ActionType.Push, 0, -1, 0, -1),
+    PushWN("Push(W,N)", ActionType.Push, 0, -1, -1, 0),
+    PushWS("Push(W,S)", ActionType.Push, 0, -1, 1, 0),
 
     // Agent pulling North
-    PullNN("Pull(X,Y)", ActionType.Pull, -1, 0, -1, 0),
-    PullNE("Pull(X,Y)", ActionType.Pull, -1, 0, 0, 1),
-    PullNW("Pull(X,Y)", ActionType.Pull, -1, 0, 0, -1),
+    PullNN("Pull(N,N)", ActionType.Pull, -1, 0, -1, 0),
+    PullNE("Pull(N,E)", ActionType.Pull, -1, 0, 0, 1),
+    PullNW("Pull(N,W)", ActionType.Pull, -1, 0, 0, -1),
     // Agent pulling South
-    PullSS("Pull(X,Y)", ActionType.Pull, 1, 0, 1, 0),
-    PullSE("Pull(X,Y)", ActionType.Pull, 1, 0, 0, 1),
-    PullSW("Pull(X,Y)", ActionType.Pull, 1, 0, 0, -1),
+    PullSS("Pull(S,S)", ActionType.Pull, 1, 0, 1, 0),
+    PullSE("Pull(S,E)", ActionType.Pull, 1, 0, 0, 1),
+    PullSW("Pull(S,W)", ActionType.Pull, 1, 0, 0, -1),
     // Agent pulling East
-    PullEE("Pull(X,Y)", ActionType.Pull, 0, 1, 0, 1),
-    PullEN("Pull(X,Y)", ActionType.Pull, 0, 1, -1, 0),
-    PullES("Pull(X,Y)", ActionType.Pull, 0, 1, 1, 0),
+    PullEE("Pull(E,E)", ActionType.Pull, 0, 1, 0, 1),
+    PullEN("Pull(E,N)", ActionType.Pull, 0, 1, -1, 0),
+    PullES("Pull(E,S)", ActionType.Pull, 0, 1, 1, 0),
     // Agent pulling West
-    PullWW("Pull(X,Y)", ActionType.Pull, 0, -1, 0, -1),
-    PullWN("Pull(X,Y)", ActionType.Pull, 0, -1, -1, 0),
-    PullWS("Pull(X,Y)", ActionType.Pull, 0, -1, 1, 0);
+    PullWW("Pull(W,W)", ActionType.Pull, 0, -1, 0, -1),
+    PullWN("Pull(W,N)", ActionType.Pull, 0, -1, -1, 0),
+    PullWS("Pull(W,S)", ActionType.Pull, 0, -1, 1, 0);
 
     public final String name;
     public final ActionType type;
