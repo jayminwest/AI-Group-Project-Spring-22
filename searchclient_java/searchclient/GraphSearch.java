@@ -18,10 +18,11 @@ public class GraphSearch {
             //Try to solve a few levels by hand, enter the found solutions below, and run them:
 
             return new Action[][] {
-                {Action.MoveS},
-                {Action.MoveE},
-                {Action.MoveE},
-                {Action.MoveS},
+                    {Action.MoveE},
+                    {Action.MoveN},
+                    {Action.PullWS},
+                    {Action.PullNW},
+                    {Action.PushSS}
             };
         } 
         else {
@@ -51,19 +52,21 @@ public class GraphSearch {
                 if (++iterations % 10000 == 0) {
                     printSearchStatus(explored, frontier);
                 }
-                // Your code here...
+                // If there is nothing more to search:
                 if(frontier.isEmpty()){
                     return null;
                 }
                 State curr = frontier.pop();
+                // If the current state from the frontier is the goal state:
                 if(curr.isGoalState()){
+                    // Return the plan to reach the goal state:
                     return curr.extractPlan();
-                    //printSearchStatus(explored, frontier);
-
                 }
+                // If it is not the goal state, add it to the explored states:
                 explored.add(curr);
-
+                // For each of the possible states:
                 for (State child : curr.getExpandedStates()){
+                    // If the state has not been seen before, add it to the frontier:
                     if(!frontier.contains(child) && !explored.contains(child)){
                         frontier.add(child);
                     }

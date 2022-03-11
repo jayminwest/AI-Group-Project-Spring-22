@@ -298,8 +298,8 @@ public class State
             Action action = jointAction[agent];
             int agentRow = this.agentRows[agent];
             int agentCol = this.agentCols[agent];
-            int boxRow = -1;
-            int boxCol = -1;
+            int boxRow = 0;
+            int boxCol = 0;
 
             switch (action.type)
             {
@@ -324,7 +324,7 @@ public class State
                     destinationRows[agent] = agentRow + action.agentRowDelta;
                     destinationCols[agent] = agentCol + action.agentColDelta;
                     boxRows[agent] = boxRow + action.boxRowDelta; // changing row of box
-                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box 
+                    boxCols[agent] = boxCol + action.boxColDelta; // changing col of box
                     break;
            }
         }
