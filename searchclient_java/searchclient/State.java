@@ -122,11 +122,12 @@ public class State
                     // updating the boxes grid
                     this.boxes[oldBoxRow][oldBoxCol] = 0;
                     this.boxes[newBoxRow][newBoxCol] = box;
+                    break;
 
                 case Pull:
                     // new box position
                     newBoxRow = this.agentRows[agent];
-                    newBoxCol = this.agentRows[agent];
+                    newBoxCol = this.agentCols[agent];
                     // old box position
                     oldBoxRow = newBoxRow - action.boxRowDelta;
                     oldBoxCol = newBoxCol - action.boxColDelta;
@@ -137,6 +138,7 @@ public class State
                     //updating the boxes grid
                     this.boxes[oldBoxRow][oldBoxCol] = 0;
                     this.boxes[newBoxRow][newBoxCol] = box;
+                    break;
 
             }
         }
@@ -258,25 +260,25 @@ public class State
                 destinationRow = agentRow + action.agentRowDelta;
                 destinationCol = agentCol + action.agentColDelta;
                 boxRow = destinationRow + action.boxRowDelta;
-                boxCol = destinationCol + action.agentColDelta;
+                boxCol = destinationCol + action.boxColDelta;
                 box = this.boxes[destinationRow][destinationCol];
                 if(box == 0 || box == '0'){
                     return false;
                 }
 
-                return this.cellIsFree(boxRow, boxCol) && this.boxColors[(int) box - 65] == agentColor;
+                return (this.cellIsFree(boxRow, boxCol) && this.boxColors[(int) box - 65] == agentColor);
 
             case Pull:
                 destinationRow = agentRow + action.agentRowDelta;
                 destinationCol = agentCol + action.agentColDelta;
-                boxRow = destinationRow - action.boxRowDelta;
-                boxCol = destinationCol - action.agentColDelta;
-                box = this.boxes[destinationRow][destinationCol];
+                boxRow = agentRow - action.boxRowDelta;
+                boxCol = agentCol - action.boxColDelta;
+                box = this.boxes[boxRow][boxCol];
                 if(box == 0 || box == '0'){
                     return false;
                 }
 
-                return this.cellIsFree(destinationRow, destinationCol) && this.boxColors[(int) box - 65] == agentColor;
+                return (this.cellIsFree(destinationRow, destinationCol) && this.boxColors[(int) box - 65] == agentColor);
         }
 
         // Unreachable:
