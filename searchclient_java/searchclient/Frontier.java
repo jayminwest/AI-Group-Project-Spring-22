@@ -3,6 +3,7 @@ package searchclient;
 import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 
 public interface Frontier
 {

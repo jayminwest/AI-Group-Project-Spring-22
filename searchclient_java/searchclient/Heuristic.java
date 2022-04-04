@@ -12,7 +12,22 @@ public abstract class Heuristic
 
     public int h(State s)
     {
-        throw new NotImplementedException();
+
+        /*
+            Search the state boxes
+            Search the state goals
+            see if there are any boxes on any goals
+            check that the colors match
+            count how many are covered with the right color boxes
+            subtract that count from the total number of goals
+            return the amount of UNCOVERED goals
+         */
+        int goal_count = 0;
+
+        for (int i = 0; i < s.boxes.length; ++i) {
+
+        }
+        return goal_count;
     }
 
     public abstract int f(State s);

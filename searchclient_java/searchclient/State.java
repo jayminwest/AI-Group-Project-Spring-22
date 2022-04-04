@@ -350,7 +350,10 @@ public class State
                 {
                     return true;
                 }
-
+                //Moving same box?
+                if (jointAction[a1] == jointAction[a2]) {
+                    return true;
+                }
             }
         }
 
