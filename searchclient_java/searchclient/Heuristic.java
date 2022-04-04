@@ -22,12 +22,35 @@ public abstract class Heuristic
             subtract that count from the total number of goals
             return the amount of UNCOVERED goals
          */
-        int goal_count = 0;
 
-        for (int i = 0; i < s.boxes.length; ++i) {
+        int count_uncovered = 0;
 
+        // For each goal in the state
+        for (int row = 1; row < s.goals.length - 1; row++)
+        {
+            for (int col = 1; col < s.goals[row].length - 1; col++)
+            {
+                char goal = s.goals[row][col];
+
+                //If the goal is covered, subtract from the count_uncovered
+                if ('A' <= goal && goal <= 'Z' && s.boxes[row][col] != goal)
+                {
+                    count_uncovered--;
+                }
+                // Else if it is covred, add to the count_uncovered
+                else if ('0' <= goal && goal <= '9' &&
+                        !(s.agentRows[goal - '0'] == row && s.agentCols[goal - '0'] == col))
+                {
+                    count_uncovered++;
+                }
+            }
         }
-        return goal_count;
+
+        if (count_uncovered < 0) {
+            count_uncovered = 0;
+        }
+
+        return count_uncovered;
     }
 
     public abstract int f(State s);
