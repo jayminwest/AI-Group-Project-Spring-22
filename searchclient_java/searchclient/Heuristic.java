@@ -37,7 +37,7 @@ public abstract class Heuristic
                 {
                     count_uncovered--;
                 }
-                // Else if it is covred, add to the count_uncovered
+                // Else if it is covered, add to the count_uncovered
                 else if ('0' <= goal && goal <= '9' &&
                         !(s.agentRows[goal - '0'] == row && s.agentCols[goal - '0'] == col))
                 {
