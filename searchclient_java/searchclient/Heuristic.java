@@ -8,6 +8,7 @@ public abstract class Heuristic
     public Heuristic(State initialState)
     {
         // Here's a chance to pre-process the static parts of the level.
+
     }
 
     public int h(State s)
@@ -23,25 +24,22 @@ public abstract class Heuristic
             return the amount of UNCOVERED goals
          */
 
+        // count all goals
         int count_uncovered = 0;
-
-        // For each goal in the state
-        for (int row = 1; row < s.goals.length - 1; row++)
-        {
-            for (int col = 1; col < s.goals[row].length - 1; col++)
-            {
+        for (int row = 1; row <s.goals.length - 1; row++){
+            for(int col = 1; col <s.goals[row].length -1; col++){
                 char goal = s.goals[row][col];
-
-                //If the goal is covered, subtract from the count_uncovered
-                if ('A' <= goal && goal <= 'Z' && s.boxes[row][col] != goal)
-                {
-                    count_uncovered--;
+                if('A' <= goal && goal <= 'Z' ){
+                    count_uncovered ++;
                 }
-                // Else if it is covered, add to the count_uncovered
-                else if ('0' <= goal && goal <= '9' &&
-                        !(s.agentRows[goal - '0'] == row && s.agentCols[goal - '0'] == col))
-                {
-                    count_uncovered++;
+            }
+        }
+        //count uncovered
+        for (int row = 1; row <s.goals.length - 1; row++){
+            for(int col = 1; col <s.goals[row].length -1; col++){
+                char goal = s.goals[row][col];
+                if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
+                    count_uncovered --;
                 }
             }
         }
