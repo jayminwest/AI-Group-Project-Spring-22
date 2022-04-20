@@ -8,67 +8,45 @@ public abstract class Heuristic
     public Heuristic(State initialState)
     {
         // Here's a chance to pre-process the static parts of the level.
-        h(initialState);
+
     }
 
     public int h(State s)
     {
+
         /*
-            count all goals in level
-                make this the count_uncovered
-            loop through the boxes
-            check the coordinates for the box against the goals
-            if they match, subtract from count uncovered
+            Search the state boxes
+            Search the state goals
+            see if there are any boxes on any goals
+            check that the colors match
+            count how many are covered with the right color boxes
+            subtract that count from the total number of goals
+            return the amount of UNCOVERED goals
          */
 
+        // count all goals
         int count_uncovered = 0;
-
-        for (int row = 1; row < s.goals.length; row++)
-        {
-            for (int col = 1; col < s.goals[row].length; col++)
-            {
+        for (int row = 1; row <s.goals.length - 1; row++){
+            for(int col = 1; col <s.goals[row].length -1; col++){
                 char goal = s.goals[row][col];
-                if ('A' <= goal && goal <= 'Z')
-                {
-                    count_uncovered++;
+                if('A' <= goal && goal <= 'Z' ){
+                    count_uncovered ++;
+                }
+            }
+        }
+        //count uncovered
+        for (int row = 1; row <s.goals.length - 1; row++){
+            for(int col = 1; col <s.goals[row].length -1; col++){
+                char goal = s.goals[row][col];
+                if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
+                    count_uncovered --;
                 }
             }
         }
 
-        for (int row = 1; row < s.boxes.length; row++)
-        {
-            for (int col = 1; col < s.boxes[row].length; col++)
-            {
-                char box = s.boxes[row][col];
-                if ('A' <= goal && goal <= 'Z' != 0)
-                {
-                    count_uncovered--;
-                }
-            }
+        if (count_uncovered < 0) {
+            count_uncovered = 0;
         }
-
-//        // For each goal in the state
-//        for (int row = 0; row < s.goals.length; row++)
-//        {
-//            for (int col = 0; col < s.goals[row].length; col++)
-//            {
-//                char goal = s.goals[row][col];
-//
-//                //If the goal is covered, subtract from the count_uncovered
-//                if ('A' <= goal && goal <= 'Z' && s.boxes[row][col] != goal)
-//                {
-//                    count_uncovered--;
-//                }
-//                // Else if it is covered, add to the count_uncovered
-//                else {
-//                    count_uncovered++;
-//                }
-//            }
-//        }
-//
-//        if (count_uncovered < 0) {
-//            count_uncovered = 0;
-//        }
 
         return count_uncovered;
     }
