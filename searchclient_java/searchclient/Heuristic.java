@@ -26,23 +26,17 @@ public abstract class Heuristic
 
         // count all goals
         int count_uncovered = 0;
-        for (int row = 1; row <s.goals.length - 1; row++){
-            for(int col = 1; col <s.goals[row].length -1; col++){
+        for (int row = 0; row <s.goals.length; row++){
+            for(int col = 0; col <s.goals[row].length; col++){
                 char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' ){
                     count_uncovered ++;
                 }
-            }
-        }
-        //count uncovered
-        for (int row = 1; row <s.goals.length - 1; row++){
-            for(int col = 1; col <s.goals[row].length -1; col++){
-                char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
                     count_uncovered --;
-                }
             }
         }
+    }
 
         if (count_uncovered < 0) {
             count_uncovered = 0;
