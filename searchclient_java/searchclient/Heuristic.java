@@ -1,13 +1,32 @@
 package searchclient;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public abstract class Heuristic
         implements Comparator<State>
 {
+    public HashMap<Character, List<Integer>> goalsMap = new HashMap<>();
     public Heuristic(State initialState)
     {
         // Here's a chance to pre-process the static parts of the level.
+        
+        List<Integer> temp = new ArrayList<Integer>();
+        for (int row = 1; row <initialState.goals.length; row++){
+            for (int col = 1; col <initialState.goals[row].length; col++){
+                char goal = initialState.goals[row][col];
+                temp.clear();
+                temp.add(row);
+                temp.add(col);
+                if('A' <= goal && goal <= 'Z' ){  
+                    goalsMap.put(goal, temp);
+                }
+            }
+        }
 
     }
 
@@ -26,29 +45,37 @@ public abstract class Heuristic
 
         // count all goals
         int count_uncovered = 0;
-        for (int row = 1; row <s.goals.length - 1; row++){
-            for(int col = 1; col <s.goals[row].length -1; col++){
+        int manhattan_distance = 0;
+        /*for (int row = 1; row <s.goals.length-1; row++){
+            for(int col = 1; col <s.goals[row].length-1; col++){
                 char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' ){
                     count_uncovered ++;
                 }
-            }
-        }
-        //count uncovered
-        for (int row = 1; row <s.goals.length - 1; row++){
-            for(int col = 1; col <s.goals[row].length -1; col++){
-                char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
                     count_uncovered --;
                 }
             }
-        }
+        }*/
+        int closest_goal = 100000;
+        for (int row = 1; row < s.goals.length-1; row++){
+            for(int col = 1; col <s.goals[row].length-1; col++){
+                char box = s.boxes[row][col];
+                
+                if('A' <= box && box <= 'Z' ){
+                    manhattan_distance += Math.abs(goalsMap.get(box).get(0) - row);
+                    manhattan_distance += Math.abs(goalsMap.get(box).get(1) - col);
+                    if(Math.abs(goalsMap.get(box).get(0)-s.agentRows[0]) +
+                     Math.abs(goalsMap.get(box).get(1)-s.agentCols[0]) < closest_goal){
+                        closest_goal = Math.abs(goalsMap.get(box).get(0)-s.agentRows[0]) + 
+                        Math.abs(goalsMap.get(box).get(1)-s.agentCols[0]);
+                    }
 
-        if (count_uncovered < 0) {
-            count_uncovered = 0;
-        }
-
-        return count_uncovered;
+                    }
+                }
+            }
+        
+        return manhattan_distance+closest_goal;
     }
 
     public abstract int f(State s);
