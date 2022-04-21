@@ -13,17 +13,6 @@ public abstract class Heuristic
 
     public int h(State s)
     {
-
-        /*
-            Search the state boxes
-            Search the state goals
-            see if there are any boxes on any goals
-            check that the colors match
-            count how many are covered with the right color boxes
-            subtract that count from the total number of goals
-            return the amount of UNCOVERED goals
-         */
-
         // count all goals
         int count_uncovered = 0;
         for (int row = 1; row <s.goals.length - 1; row++){
@@ -32,12 +21,6 @@ public abstract class Heuristic
                 if('A' <= goal && goal <= 'Z' ){
                     count_uncovered ++;
                 }
-            }
-        }
-        //count uncovered
-        for (int row = 1; row <s.goals.length - 1; row++){
-            for(int col = 1; col <s.goals[row].length -1; col++){
-                char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
                     count_uncovered --;
                 }
