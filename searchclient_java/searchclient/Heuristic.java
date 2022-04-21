@@ -1,6 +1,8 @@
 package searchclient;
 
 import java.util.Comparator;
+import java.util.HashMap;
+
 
 public abstract class Heuristic
         implements Comparator<State>
@@ -26,23 +28,52 @@ public abstract class Heuristic
 
         // count all goals
         int count_uncovered = 0;
-        for (int row = 0; row <s.goals.length; row++){
-            for(int col = 0; col <s.goals[row].length; col++){
+        int manhattan_distance = 0;
+        /*for (int row = 1; row <s.goals.length-1; row++){
+            for(int col = 1; col <s.goals[row].length-1; col++){
                 char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' ){
                     count_uncovered ++;
                 }
                 if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
                     count_uncovered --;
+                }
+            }
+        }*/
+        HashMap<Character, Integer> goalRow = new HashMap<>();
+        HashMap<Character, Integer> goalCol = new HashMap<>();
+        int closest_goal = 100000;
+        for (int row = 1; row < s.goals.length-1; row++){
+            for(int col = 1; col <s.goals[row].length-1; col++){
+                char goal = s.goals[row][col];
+                char box = s.boxes[row][col];
+                if('A' <= goal && goal <= 'Z' ){
+                    if(Math.abs(s.agentRows[0]-row) + Math.abs(s.agentCols[0]-col) < closest_goal){
+                        closest_goal = Math.abs(s.agentRows[0]-row) + Math.abs(s.agentCols[0]-col);
+                    }
+                    if(!goalRow.containsKey(goal)){
+                        goalRow.put(goal, row);
+                        goalCol.put(goal, col);
+                    }
+                    else{
+                        manhattan_distance += Math.abs(goalRow.get(goal) - row);
+                        manhattan_distance += Math.abs(goalCol.get(goal) - col);
+                    }
+                }
+                if('A' <= box && box <= 'Z' ){
+                    if(!goalRow.containsKey(box)){
+                        goalRow.put(box, row);
+                        goalCol.put(box, col);
+                    }
+                    else{
+                        manhattan_distance += Math.abs(goalRow.get(box) - row);
+                        manhattan_distance += Math.abs(goalCol.get(box) - col);
+
+                    }
+                }
             }
         }
-    }
-
-        if (count_uncovered < 0) {
-            count_uncovered = 0;
-        }
-
-        return count_uncovered;
+        return manhattan_distance+closest_goal;
     }
 
     public abstract int f(State s);
