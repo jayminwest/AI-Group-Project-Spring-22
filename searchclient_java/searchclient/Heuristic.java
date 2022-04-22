@@ -15,10 +15,8 @@ public abstract class Heuristic
 
     public int h(State s)
     {
-        // count all goals
-        int count_uncovered = 0;
-        int manhattan_distance = 0;
-        /*for (int row = 1; row <s.goals.length-1; row++){
+        /**
+        for (int row = 1; row <s.goals.length-1; row++){
             for(int col = 1; col <s.goals[row].length-1; col++){
                 char goal = s.goals[row][col];
                 if('A' <= goal && goal <= 'Z' ){
@@ -28,7 +26,11 @@ public abstract class Heuristic
                     count_uncovered --;
                 }
             }
-        }*/
+        }
+        **/
+
+        int manhattan_distance = 0;
+
         HashMap<Character, Integer> goalRow = new HashMap<>();
         HashMap<Character, Integer> goalCol = new HashMap<>();
         int closest_goal = 100000;
