@@ -1,7 +1,10 @@
 package searchclient;
 
-import java.util.Comparator;
-import java.util.HashMap;
+import jdk.security.jarsigner.JarSigner;
+
+import java.lang.reflect.Array;
+import java.sql.ClientInfoStatus;
+import java.util.*;
 
 
 public abstract class Heuristic
@@ -15,56 +18,63 @@ public abstract class Heuristic
 
     public int h(State s)
     {
-        /**
-        for (int row = 1; row <s.goals.length-1; row++){
-            for(int col = 1; col <s.goals[row].length-1; col++){
-                char goal = s.goals[row][col];
-                if('A' <= goal && goal <= 'Z' ){
-                    count_uncovered ++;
-                }
-                if('A' <= goal && goal <= 'Z' && s.boxes[row][col] == goal){
-                    count_uncovered --;
-                }
-            }
-        }
-        **/
-
+        int distance = 0;
         int manhattan_distance = 0;
 
-        HashMap<Character, Integer> goalRow = new HashMap<>();
-        HashMap<Character, Integer> goalCol = new HashMap<>();
+        HashMap<Character, ArrayList<Integer>> goalRow = new HashMap<>();
+        HashMap<Character, ArrayList<Integer>> goalCol = new HashMap<>();
+
         int closest_goal = 100000;
-        for (int row = 1; row < s.goals.length-1; row++){
-            for(int col = 1; col <s.goals[row].length-1; col++){
+        for (int row = 0; row < s.goals.length; row++){
+            for(int col = 0; col <s.goals[row].length; col++){
                 char goal = s.goals[row][col];
                 char box = s.boxes[row][col];
-                if('A' <= goal && goal <= 'Z' ){
-                    if(Math.abs(s.agentRows[0]-row) + Math.abs(s.agentCols[0]-col) < closest_goal){
-                        closest_goal = Math.abs(s.agentRows[0]-row) + Math.abs(s.agentCols[0]-col);
-                    }
-                    if(!goalRow.containsKey(goal)){
-                        goalRow.put(goal, row);
-                        goalCol.put(goal, col);
-                    }
-                    else{
-                        manhattan_distance += Math.abs(goalRow.get(goal) - row);
-                        manhattan_distance += Math.abs(goalCol.get(goal) - col);
-                    }
-                }
-                if('A' <= box && box <= 'Z' ){
-                    if(!goalRow.containsKey(box)){
-                        goalRow.put(box, row);
-                        goalCol.put(box, col);
-                    }
-                    else{
-                        manhattan_distance += Math.abs(goalRow.get(box) - row);
-                        manhattan_distance += Math.abs(goalCol.get(box) - col);
+                if('A' <= goal && goal <= 'Z' )
+                {
+                    distance = Math.abs(s.agentRows[0] - row) + Math.abs(s.agentCols[0] - col);
 
+                    if (distance < closest_goal)
+                    {
+                        closest_goal = distance;
                     }
+                    if (!goalRow.containsKey(goal))
+                    {
+                        goalRow.put(goal, new ArrayList<>());
+                        goalCol.put(goal, new ArrayList<>());
+                    }
+                    goalRow.get(goal).add(row);
+                    goalCol.get(goal).add(col);
                 }
             }
         }
-        return manhattan_distance+closest_goal;
+
+        for (int row = 0; row < s.boxes.length; row++){
+            for(int col = 0; col <s.boxes[row].length; col++){
+                char box = s.boxes[row][col];
+                if('A' <= box && box <= 'Z' ) {
+                    int minRow = 0;
+                    int minCol = 0;
+                    int minMan = 1000000;
+                    int ind = 0;
+
+                    for (int y = 0; y < goalRow.get(box).size(); ++y)
+                    {
+                        minRow = Math.abs(goalRow.get(box).get(y) - row);
+                        minCol = Math.abs(goalCol.get(box).get(y) - col);
+                        if(minRow + minCol < minMan)
+                        {
+                            minMan = minRow + minCol;
+                            ind = y;
+                        }
+
+                    }
+                    goalRow.get(box).remove(ind);
+                    goalCol.get(box).remove(ind);
+                    manhattan_distance += minMan;
+                }
+            }
+        }
+        return manhattan_distance;
     }
 
     public abstract int f(State s);
